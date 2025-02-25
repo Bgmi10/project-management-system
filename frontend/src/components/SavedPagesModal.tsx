@@ -1,4 +1,3 @@
-import React from 'react';
 import { X, Trash2, Download, Eye } from 'lucide-react';
 import { useSavedPages } from '../hooks/useSavedPages';
 import { FormData, PagePreview } from '../types';

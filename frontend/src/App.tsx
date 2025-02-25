@@ -8,7 +8,7 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 // Lazy load components
 const HomePage = lazy(() => import('./components/HomePage'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
-const LoginPage = lazy(() => import('./components/LoginPage'));
+const LoginPage = lazy(() => import('./components/auth/LoginPage'));
 const Navigation = lazy(() => import('./components/Navigation'));
 const NewProject = lazy(() => import('./components/project/NewProject'));
 const ProjectList = lazy(() => import('./components/project/ProjectList'));
