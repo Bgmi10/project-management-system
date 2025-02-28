@@ -79,7 +79,7 @@ export function useAuth() {
       throw error;
     }
   };
-
+  
   return {
     user,
     loading,

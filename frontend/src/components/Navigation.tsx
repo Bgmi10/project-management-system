@@ -72,7 +72,7 @@ export default function Navigation() {
           <div className="flex items-center">
             {user ? (
               <div className="flex items-center lg:space-x-4 sm: space-x-3">
-                <button className="text-gray-400 hover:text-gray-600 sm:hidden lg:block">
+                <button className="text-gray-400 hover:text-gray-600 sm: hidden lg:block">
                   {isLight === "light" ? (
                     <Sun className="w-5 h-5" onClick={toggleTheme} />
                   ) : (
