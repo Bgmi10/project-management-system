@@ -11,12 +11,14 @@ import {
 } from "lucide-react";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFormContext } from "../context/FormContext";
 
 export default function Navigation() {
   const { user, signOut } = useAuth();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isLight, toggleTheme } = useContext(ThemeContext);
+  const { isLogin, setFormType } = useFormContext();
 
   const navigationItems = user
     ? [
@@ -98,18 +100,18 @@ export default function Navigation() {
               </div>
             ) : (
               <div className="flex items-center lg:space-x-4 sm: space-x-3">
-                <Link
-                  to="/login"
+                <button
+                  onClick={() => isLogin === "singin" ? setFormType("signup") : setFormType("signin")}
                   className="text-gray-600 hover:text-gray-900 font-medium"
                 >
                   Sign In
-                </Link>
-                <Link
-                  to="/login"
+                </button>
+                <button
+                  onClick={() => isLogin === "singin" ? setFormType("signin") : setFormType("signup")}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                 >
                   Get Started
-                </Link>
+                </button>
               </div>
             )}
 

@@ -1,34 +1,32 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { LogIn, UserPlus, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import signInWithGoogle from '../../lib/auth';
 import { motion } from 'framer-motion';
 import { FcGoogle } from 'react-icons/fc';
+import { useFormContext } from '../../context/FormContext';
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLogin, setFormType } = useFormContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const { signIn, signUp } = useAuth();
-
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (isLogin) {
+      if (isLogin === "signin") {
         await signIn(email, password);
-        navigate('/');
       } else {
-        await signUp(email, password);
-        navigate('/');
-      }
+        const res = await signUp(email, password);
+        console.log(res);
+      } 
     } catch (error) {
-      // Error is handled in useAuth hook
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -75,7 +73,7 @@ export default function LoginPage() {
             }}
             whileHover={{ scale: 1.1, rotate: 5 }}
           >
-            {isLogin ? 
+            {isLogin === "signin" ? 
               <LogIn className="h-8 w-8 text-blue-600" /> : 
               <UserPlus className="h-8 w-8 text-blue-600" />
             }
@@ -86,20 +84,20 @@ export default function LoginPage() {
           className="mt-2 text-center text-3xl font-extrabold text-gray-900"
           variants={itemVariants}
         >
-          {isLogin ? 'Welcome back' : 'Create your account'}
+          {isLogin === "signin" ? 'Welcome back' : 'Create your account'}
         </motion.h2>
         
         <motion.p 
           className="mt-2 text-center text-sm text-gray-600"
           variants={itemVariants}
         >
-          {isLogin ? "Don't have an account? " : 'Already have an account? '}
+          {isLogin === "signin" ? "Don't have an account? " : 'Already have an account? '}
           <motion.button
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => setFormType(isLogin === "signin" ? "signup" : "signin")}
             className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"
             whileTap={{ scale: 0.95 }}
           >
-            {isLogin ? 'Sign up' : 'Sign in'}
+            {isLogin === "signin" ? 'Sign up' : 'Sign in'}
           </motion.button>
         </motion.p>
       </motion.div>
@@ -143,7 +141,7 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type={isPasswordShow ? 'text' : 'password'}
-                  autoComplete={isLogin ? "current-password" : "new-password"}
+                  autoComplete={isLogin === "singin" ? "current-password" : "new-password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -177,7 +175,7 @@ export default function LoginPage() {
                   <Loader2 className="animate-spin h-5 w-5" />
                 ) : (
                   <div className="flex items-center">
-                    {isLogin ? 'Sign in' : 'Create account'} 
+                    {isLogin === "signin" ? 'Sign in' : 'Create account'} 
                     <motion.div
                       className="ml-2"
                       animate={{ x: [0, 4, 0] }}
@@ -213,7 +211,7 @@ export default function LoginPage() {
               whileTap={{ scale: 0.98 }}
             >
               <FcGoogle className="h-5 w-5" /> 
-              <span>{isLogin ? "Sign in" : "Sign up"}  with Google</span>
+              <span>{isLogin === "signin" ? "Sign in" : "Sign up"}  with Google</span>
             </motion.button>
           </motion.div>
         </motion.div>
